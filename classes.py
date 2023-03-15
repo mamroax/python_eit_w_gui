@@ -11,7 +11,7 @@ from shapely.geometry import Point
 from typing import Callable
 
 
-
+@dataclass
 class PyEITMesh:
     """
     Pyeit buid-in mesh object
@@ -31,17 +31,6 @@ class PyEITMesh:
     ref_node : int
         reference node. ref_node should not be on electrodes, default 0.
     """
-    def __new__(cls, *args, **kwargs):
-        print("Hello from __new__")
-        return super().__new__(cls)
-
-    def __init__(self, element, node, perm, el_pos, ref_node):
-        print("Hello from __init__")
-        self.element = element
-        self.node = node
-        self.perm = perm
-        self.el_pos = el_pos
-        self.ref_node = ref_node
 
     node: np.ndarray
     element: np.ndarray
