@@ -21,6 +21,7 @@ try:
             max_value = average
             max_value_index = i
         breath_points.append(average)
+    plt.plot(x, breath_points)
     plt.scatter(x, breath_points)
     plt.show()
     print('Индекс измерения с самым глубоким выдохом(момент времени tref) ', min_value_index)

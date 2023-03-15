@@ -1,36 +1,44 @@
-from tkinter import *
-from tkinter import filedialog
+import tkinter as tk
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import functions
 
+root = tk.Tk()
 
-def add_message():
-    filename = filedialog.askopenfilename(initialdir="/", title="Выберите файл", \
-                                          filetypes=(("txt файлы", "*.txt"), ("all files", "*.*")))
-    with open(filename, 'r') as file:
-        text = file.readline()
-    message_entry.delete(0, END)
-    message_entry.insert(0, text)
+x, breath_points, ind_max, ind_min = functions.breath('experimental.txt', 1)
 
+figure3 = plt.Figure(figsize=(5, 4), dpi=100)
+ax3 = figure3.add_subplot(111)
+# ax3.scatter(x, breath_points, color='b')
+ax3.plot(x, breath_points, color='b')
+scatter3 = FigureCanvasTkAgg(figure3, root)
+scatter3.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
+ax3.legend(['average voltage difference'])
+ax3.set_xlabel('measurement points')
+ax3.set_ylabel('voltage(V)')
+ax3.set_title('Breating chart')
 
-def save_message():
-    filename = filedialog.asksaveasfilename(initialdir="/", title="Select file", \
-                                            filetypes=(("txt файлы", "*.txt"), ("all files", "*.*")))
-    with open(filename + '.txt', 'w') as file:
-        file.write(message_entry.get())
+x, breath_points, ind_max, ind_min = functions.breath('experimental.txt', 3)
 
+figure3 = plt.Figure(figsize=(5, 4), dpi=100)
+ax3 = figure3.add_subplot(111)
+ax3.plot(x, breath_points, color='b', lw = 2)
+scatter3 = FigureCanvasTkAgg(figure3, root)
+scatter3.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
+ax3.legend(['average voltage difference'])
+ax3.set_xlabel('measurement points')
+ax3.set_ylabel('voltage(V)')
+ax3.set_title('Breating chart')
 
-root = Tk()
-root.title("GUI на Python")
-root.geometry("300x250")
-
-message = StringVar()
-
-message_entry = Entry(textvariable=message)
-message_entry.place(relx=.5, rely=.1, anchor="c")
-
-message_button = Button(text="Загрузить", command=add_message)
-message_button.place(relx=.5, rely=.5, anchor="c")
-
-message_button = Button(text="Сохранить", command=save_message)
-message_button.place(relx=.5, rely=.7, anchor="c")
+x, breath_points, ind_max, ind_min = functions.breath('experimental.txt', 5)
+figure3 = plt.Figure(figsize=(5, 4), dpi=100)
+ax3 = figure3.add_subplot(111)
+ax3.plot(x, breath_points, color='b', lw = 2)
+scatter3 = FigureCanvasTkAgg(figure3, root)
+scatter3.get_tk_widget().pack(side=tk.LEFT, fill=tk.BOTH)
+ax3.legend(['average voltage difference'])
+ax3.set_xlabel('measurement points')
+ax3.set_ylabel('voltage(V)')
+ax3.set_title('Breating chart')
 
 root.mainloop()
