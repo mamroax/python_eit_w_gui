@@ -4,14 +4,49 @@ from numpy import sqrt
 from dataclasses import dataclass
 from typing import Union
 from itertools import combinations
-from scipy.spatial import Delaunay
+from scipy.spatial import Delaunay, ConvexHull
 from scipy.sparse import csr_matrix, linalg, coo_matrix
 import scipy.linalg as la
 from shapely.geometry.polygon import Polygon
 from shapely.geometry import Point
 from typing import Callable, Union, List, Tuple
 from abc import ABC, abstractmethod
+from matplotlib.path import Path
 
+
+
+@dataclass
+class PyEITAnomaly(ABC):
+    """
+    Pyeit Anomaly for simulation purpose
+    """
+
+    center: Union[np.ndarray, list]  # center of the anomaly
+    perm: float = 1.0  # permittivity of the anomaly
+
+    def __post_init__(self):
+        if isinstance(self.center, list):
+            self.center = np.array(self.center)
+
+    @abstractmethod
+    def mask(self, pts: np.ndarray) -> np.ndarray:
+        """
+        Return mask corresponding to the pts contained in the Anomaly
+        """
+
+@dataclass
+class PyEITAnomaly_Circle(PyEITAnomaly):
+    """
+    Pyeit Anomaly for simulation purpose, 2D circle
+
+    """
+
+    r: float = 1.0  # radius of the circle
+
+    def mask(self, pts: np.ndarray) -> np.ndarray:
+        pts = pts[:, :2].reshape((-1, 2))
+        pc = self.center[:2].reshape((1, 2))
+        return circle(pts, pc, self.r) < 0
 
 class PyEITMesh:
     """
@@ -594,6 +629,183 @@ class EitBase(ABC):
             Normalized current frame difference dv
         """
         return (v1 - v0) / np.abs(v0)
+
+
+class GREIT(EitBase):
+    """The GREIT algorithm"""
+
+    def setup(
+        self,
+        method: str = "dist",
+        w: np.ndarray = None,
+        p: float = 0.20,
+        lamb: float = 1e-2,
+        n: int = 32,
+        s: float = 20.0,
+        ratio: float = 0.1,
+        perm: Union[int, float, np.ndarray] = None,
+        jac_normalized: bool = False,
+    ) -> None:
+        """
+        Setup GREIT solver
+
+        Parameters
+        ----------
+        method : str, optional
+            only 'dist' accepted, by default "dist"
+        w : np.ndarray, optional
+            weight on each element, by default None
+        p : float, optional
+            noise covariance, by default 0.20
+        lamb : float, optional
+            regularization parameters, by default 1e-2
+        n : int, optional
+            grid size, by default 32
+        s : float, optional
+            control the blur, by default 20.0
+        ratio : float, optional
+            desired ratio, by default 0.1
+        perm : Union[int, float, np.ndarray], optional
+            If perm is not None, a prior of perm distribution is used to build Jacobian
+        jac_normalized : bool, optional
+            normalize the jacobian using f0 computed from input perm, by
+            default False
+
+        Raises
+        ------
+        ValueError
+            raised if method != "dist"
+
+        References
+        ----------
+        [1] Bartlomiej Grychtol, Beat Muller, Andy Adler
+            "3D EIT image reconstruction with GREIT"
+        [2] Adler, Andy, et al.
+            "GREIT: a unified approach to 2D linear EIT reconstruction of
+            lung images." Physiological measurement 30.6 (2009): S35.
+        """
+
+        if method != "dist":
+            raise ValueError(f"method {method} not supported yet")
+
+        # parameters for GREIT projection
+        if w is None:
+            w = np.ones_like(self.mesh.perm)
+        self.params = {
+            "w": w,
+            "p": p,
+            "lamb": lamb,
+            "n": n,
+            "s": s,
+            "ratio": ratio,
+            "jac_normalize": jac_normalized,
+        }
+
+        # Build grids and mask
+        self.xg, self.yg, self.mask = meshgrid(self.mesh.node, n=n)
+
+        w_mat = self._compute_grid_weights(self.xg, self.yg)
+        self.J, self.v0 = self.fwd.compute_jac(perm=perm, normalize=jac_normalized)
+        self.H = self._compute_h(jac=self.J, w_mat=w_mat)
+        self.is_ready = True
+
+    def _compute_h(self, jac: np.ndarray, w_mat: np.ndarray) -> np.ndarray:
+        """
+        Generate H (or R) using distribution method for GREIT solver
+
+        Args:
+            jac (np.ndarray): Jacobian matrix
+            w_mat (np.ndarray): meights matrix
+
+        Returns:
+            np.ndarray: H
+        """
+        lamb, p = self.params["lamb"], self.params["p"]
+        # E[yy^T], it is more efficient to use left pinv than right pinv
+        j_j_w = np.dot(jac, jac.T)
+        r_mat = np.diag(np.diag(j_j_w) ** p)
+        jac_inv = la.inv(j_j_w + lamb * r_mat)
+        # RM = E[xx^T] / E[yy^T]
+        return np.dot(np.dot(w_mat.T, jac.T), jac_inv)
+
+    def get_grid(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Return masking grid data
+
+        Raises
+        ------
+        SolverNotReadyError
+            raised if solver not ready (see self._check_solver_is_ready())
+
+        Returns
+        -------
+        Tuple[np.ndarray, np.ndarray, np.ndarray]
+            x grid, y grid and masking data, which denotes nodes outside
+            2D mesh
+        """
+        self._check_solver_is_ready()
+        return self.xg, self.yg, self.mask
+
+    def mask_value(
+        self, ds: np.ndarray, mask_value: float = 0
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Set mask values on nodes outside 2D mesh. (for plot only)
+
+        Parameters
+        ----------
+        ds : np.ndarray
+            conductivity data on nodes
+        mask_value : float, optional
+            mask conductivity value to set on nodes outside 2D mesh, by
+            default 0
+
+        Raises
+        ------
+        SolverNotReadyError
+            raised if solver not ready (see self._check_solver_is_ready())
+
+        Returns
+        -------
+        Tuple[np.ndarray, np.ndarray, np.ndarray]
+            x grid, y grid and "masked" conductivity data on nodes
+        """
+        self._check_solver_is_ready()
+        ds[self.mask] = mask_value
+        ds = ds.reshape(self.xg.shape)
+        return self.xg, self.yg, ds
+
+    def _compute_grid_weights(self, xg: np.ndarray, yg: np.ndarray) -> np.ndarray:
+        """
+        Compute weights for given grid (xg,yg)
+
+        Parameters
+        ----------
+        xg : np.ndarray
+            x grid
+        yg : np.ndarray
+            y grid
+
+        Returns
+        -------
+        np.ndarray
+            weights
+        """
+        # mapping from values on triangles to values on grids
+        xy = (
+            self.mesh.elem_centers
+        )  # np.mean(self.mesh.node[self.mesh.element], axis=1)
+        xyi = np.vstack((xg.flatten(), yg.flatten())).T
+        # GREIT is using sigmod as weighting function (global)
+        ratio, s = self.params["ratio"], self.params["s"]
+        return weight_sigmod(xy, xyi, ratio=ratio, s=s)
+
+    @staticmethod
+    def build_set(x: np.ndarray, y: np.ndarray) -> np.ndarray:
+        """generate R from a set of training sets (deprecate)."""
+        # E_w[yy^T]
+        y_y_t = la.inv(np.dot(y, y.transpose()))
+        return np.dot(np.dot(x, y), y_y_t)
 
 class JAC(EitBase):
     """A sensitivity-based EIT imaging class"""
@@ -2315,3 +2527,240 @@ def sim2pts(pts: np.ndarray, sim: np.ndarray, sim_values: np.ndarray) -> np.ndar
     w = np.sum(e2n_map.toarray(), axis=1)
 
     return f / w
+
+def set_perm(
+    mesh: PyEITMesh,
+    anomaly: Union[PyEITAnomaly, List[PyEITAnomaly]] = None,
+    background: float = None,
+) -> PyEITMesh:
+    """wrapper for pyEIT interface
+
+    Note
+    ----
+    update permittivity of mesh, if specified.
+
+    Parameters
+    ----------
+    mesh: PyEITMesh
+        mesh object
+    anomaly: Union[PyEITAnomaly, List[PyEITAnomaly]], optional
+        anomaly object or list of anomalyobject contains,
+        all permittivity on triangles whose distance to (x,y) are less than (d)
+        will be replaced with a new value, 'perm' may be a complex value.
+    background: float, optional
+        set background permittivity
+
+    Returns
+    -------
+    PyEITMesh
+        mesh object
+    """
+    perm = mesh.perm.copy()
+    # reset background if needed
+    if background is not None:
+        perm = background * np.ones_like(mesh.perm)
+
+    # change dtype to 'complex' for complex-valued permittivity
+    if anomaly is None:
+        return mesh
+
+    if isinstance(anomaly, PyEITAnomaly):
+        anomaly = [anomaly]
+
+    for an in anomaly:
+        if np.iscomplex(an.perm):
+            perm = perm.astype("complex")
+            break
+
+    # assign anomaly values (for elements in regions)
+    tri_centers = mesh.elem_centers
+    for an in anomaly:
+        mask = an.mask(tri_centers)
+        perm[mask] = an.perm
+
+    return PyEITMesh(
+        node=mesh.node,
+        element=mesh.element,
+        perm=perm,
+        el_pos=mesh.el_pos,
+        ref_node=mesh.ref_node,
+    )
+
+def weight_sigmod(
+    xy: np.ndarray, xyi: np.ndarray, ratio: float = 0.05, s: float = 20.0
+) -> np.ndarray:
+    """
+    (2D only)
+    local weight/interpolate by sigmod function (GREIT3D)
+
+    Parameters
+    ----------
+    xy: np.ndarray
+        (x, y) of values
+    xyi: np.ndarray
+        (xi, yi) of interpolated locations
+    ratio: float
+        R0 = d_max * ratio, by default 0.05.
+    s: float
+        control the decay ratio, by default 20.0.
+
+    Returns
+    -------
+    w_mat: np.ndarray
+        weighting matrix mapping from xy to xyi (xy meshgrid)
+    """
+    d_mat = _distance_matrix2d(xy, xyi)
+    # normalize distance
+    d_max = np.max(d_mat)
+    d_mat = 5.0 * d_mat / d_max
+    # desired radius (a ratio of max pairwise distance)
+    r0 = 5.0 * ratio
+    # weights is the sigmod function
+    weight = 1.0 / (1 + np.exp(s * (d_mat - r0)))
+    # weighting matrix normalized
+    return weight / weight.sum(axis=0)
+
+def _distance_matrix2d(xy: np.ndarray, xyi: np.ndarray) -> np.ndarray:
+    """
+    (2D only) return element-wise distance matrix (pair-wise)
+
+    Parameters
+    ----------
+    xy : np.ndarray
+        nx2 array of points (x, y)
+    xyi : np.ndarray
+        points pairs
+
+    Returns
+    -------
+    np.ndarray
+        distance matrix between pairwise observations
+    """
+    # Make a distance matrix between pairwise observations
+    # Note: from <http://stackoverflow.com/questions/1871536>
+    # (Yay for ufuncs!)
+    d0 = np.subtract.outer(xy[:, 0], xyi[:, 0])  # size(xy) * size(xyi)
+    d1 = np.subtract.outer(xy[:, 1], xyi[:, 1])
+
+    # hypot : element-wise sqrt(d0**2 + d1**2)
+    return np.hypot(d0, d1)
+
+def meshgrid(
+    pts: np.ndarray, n: int = 32, ext_ratio: float = 0.0, gc: bool = False
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """
+    build xg, yg, mask grids from triangles point cloud
+    function for interpolating regular grids
+
+    Parameters
+    ----------
+    pts: np.ndarray
+        nx2 array of points (x, y)
+    n: int
+        the number of meshgrid per dimension, by default 32
+    ext_ratio: float
+        extend the boundary of meshgrid by ext_ratio*d, by default 0.0
+    gc: bool
+        grid_correction, offset xgrid and ygrid by half step size , by default
+        False
+
+    Returns
+    -------
+    Tuple[np.ndarray, np.ndarray, np.ndarray]
+        x grid, y grid, mask
+
+    Notes
+    -----
+    mask denotes points outside mesh.
+    """
+    xg, yg = _build_grid(pts, n=n, ext_ratio=ext_ratio, gc=gc)
+    pts_edges = _hull_points(pts)
+    mask = _build_mask(pts_edges, xg, yg)
+    return xg, yg, mask
+
+def _build_grid(
+    pts: np.ndarray, n: int = 32, ext_ratio: float = 0.0, gc: bool = False
+) -> Tuple[np.ndarray, np.ndarray]:
+    """
+    Generating mesh grid from triangles point cloud
+
+    Parameters
+    ----------
+    pts: np.ndarray
+        nx2 array of points (x, y)
+    n: int
+        the number of meshgrid per dimension, by default 32
+    ext_ratio: float
+        extend the boundary of meshgrid by ext_ratio*d, by default 0.0
+    gc: bool
+        grid_correction, offset xgrid and ygrid by half step size , by default
+        False
+
+    Returns
+    -------
+    Tuple[np.ndarray, np.ndarray]
+        x grid, y grid
+    """
+    x, y = pts[:, 0], pts[:, 1]
+    x_min, x_max = min(x), max(x)
+    y_min, y_max = min(y), max(y)
+    x_ext = (x_max - x_min) * ext_ratio
+    y_ext = (y_max - y_min) * ext_ratio
+    xv, xv_step = np.linspace(
+        x_min - x_ext, x_max + x_ext, num=n, endpoint=False, retstep=True
+    )
+    yv, yv_step = np.linspace(
+        y_min - y_ext, y_max + y_ext, num=n, endpoint=False, retstep=True
+    )
+    # if need grid correction
+    if gc:
+        xv = xv + xv_step / 2.0
+        yv = yv + yv_step / 2.0
+    xg, yg = np.meshgrid(xv, yv, sparse=False, indexing="xy")
+    return xg, yg
+
+def _build_mask(pts_edges: np.ndarray, xg: np.ndarray, yg: np.ndarray) -> np.ndarray:
+    """
+    find whether meshgrids is interior of mesh
+
+    Parameters
+    ----------
+    pts_edges : np.ndarray
+        points on the edges of the mesh
+    xg : np.ndarray
+        x grid
+    yg : np.ndarray
+        x grid
+
+    Returns
+    -------
+    np.ndarray
+        mask (denotes points outside mesh.)
+    """
+    # 1. create mask based on meshes
+    points = np.vstack((xg.flatten(), yg.flatten())).T
+
+    # 2. extract edge points using el_pos
+    path = Path(pts_edges, closed=False)
+    mask = path.contains_points(points)
+    return ~mask
+
+
+def _hull_points(pts: np.ndarray) -> np.ndarray:
+    """
+    return the convex hull points from a point cloud
+
+    Parameters
+    ----------
+    pts: np.ndarray
+        nx2 array of points (x, y) (can be also (x,y,z))
+
+    Returns
+    -------
+    np.ndarray
+        convex hull points (edge points)
+    """
+    pts_2D = pts[:, :2]  # get only x and y
+    cv = ConvexHull(pts_2D)
+    hull_nodes = cv.vertices
+    return pts_2D[hull_nodes, :]

@@ -6,60 +6,93 @@ import functions as f
 
 """ 0. construct mesh """
 n_el = 16  # nb of electrodes
-# Mesh shape is specified with fd parameter in the instantiation, e.g : fd=thorax
-mesh_obj = f.create_mesh(n_el, h0=0.05) # creating an empty mash(complete)
-breath_file = open('experimental.txt') # opening a file w measurements
-breath_matrix = [line.split("	") for line in breath_file] # creating a matrix out of a file
-# print(breath_matrix[0]) # printing a matrix to assume it's working correctly
+use_customize_shape = False
+if use_customize_shape:
+    # Mesh shape is specified with fd parameter in the instantiation, e.g : fd=thorax
+    mesh_obj = f.create_mesh(n_el, h0=0.1, fd=f.thorax) # creating an empty mash
+else:
+    mesh_obj = f.create_mesh(n_el, h0=0.1)
 
-v1 = np.array([float(i) for i in breath_matrix[339]]) # first EIT frame
-v0 = np.array([float(i) for i in breath_matrix[11]]) # second EIT frame with maximum voltage difference
+n_el = 16
+mesh_obj = f.create_mesh(n_el, h0=0.05)
+protocol_obj = f.create_protocol(n_el, dist_exc=1, step_meas=1, parser_meas="std")
+jac = f.JAC(mesh_obj, protocol_obj)
+
+breath_file = open('experimental.txt')
+breath_matrix = [line.split("	") for line in breath_file]
+
+# def jt_solve(self, v1: np.ndarray, v0: np.ndarray, normalize: bool = True) -> np.ndarray:
+# нужно вставить два списка
+# jac.jt_solve()
+
+print(breath_matrix[0])
+
+v1 = np.array([float(i) for i in breath_matrix[339]])
+v0 = np.array([float(i) for i in breath_matrix[11]])
+
 
 # extract node, element, alpha
 pts = mesh_obj.node
 tri = mesh_obj.element
-x, y = pts[:, 0], pts[:, 1]
 
-""" 2. FEM simulation """
+""" 1. problem setup """
+# this step is not needed, actually
+# mesh_0 = mesh.set_perm(mesh_obj, background=1.0)
+
+# test function for altering the 'permittivity' in mesh
+anomaly = [
+    f.PyEITAnomaly_Circle(center=[0.4, 0], r=0, perm=10.0),
+    f.PyEITAnomaly_Circle(center=[-0.4, 0], r=0, perm=10.0),
+    f.PyEITAnomaly_Circle(center=[0, 0.5], r=0, perm=0.1),
+    f.PyEITAnomaly_Circle(center=[0, -0.5], r=0, perm=0.1),
+]
+#mesh_new = f.set_perm(mesh_obj, anomaly=anomaly, background=1.0)
+#delta_perm = np.real(mesh_new.perm - mesh_obj.perm)
+
+""" 2. FEM forward simulations """
 # setup EIT scan conditions
-protocol_obj = f.create_protocol(n_el, dist_exc=8, step_meas=1, parser_meas="std")
+protocol_obj = f.create_protocol(n_el, dist_exc=1, step_meas=1, parser_meas="std")
 
 # calculate simulated data
 fwd = f.EITForward(mesh_obj, protocol_obj)
 v0 = v0
 v1 = v1
 
-""" 3. JAC solver """
-# Note: if the jac and the real-problem are generated using the same mesh,
-# then, data normalization in solve are not needed.
-# However, when you generate jac from a known mesh, but in real-problem
-# (mostly) the shape and the electrode positions are not exactly the same
-# as in mesh generating the jac, then data must be normalized.
-jac = f.JAC(mesh_obj, protocol_obj)
-eit = jac
-eit.setup(p=0.5, lamb=0.01, method="kotre", perm=1, jac_normalized=True)
+""" 3. Construct using GREIT """
+eit = f.GREIT(mesh_obj, protocol_obj)
+eit.setup(p=0.50, lamb=0.01, perm=1, jac_normalized=True)
 ds = eit.solve(v1, v0, normalize=True)
-ds_n = f.sim2pts(pts, tri, np.real(ds))
+x, y, ds = eit.mask_value(ds, mask_value=np.NAN)
 
-# plot ground truth
-fig, axes = plt.subplots(1, 2, constrained_layout=True)
-fig.set_size_inches(9, 4)
+# show alpha
+fig, axes = plt.subplots(2, 1, constrained_layout=True, figsize=(6, 9))
 
+# ax = axes[0]
+# im = ax.tripcolor(pts[:, 0], pts[:, 1], tri, delta_perm, shading="flat")
+# ax.axis("equal")
+# ax.set_xlim([-1.2, 1.2])
+# ax.set_ylim([-1.2, 1.2])
+# ax.set_title(r"$\Delta$ Conductivity")
+# fig.set_size_inches(6, 4)
+
+# plot
+"""
+imshow will automatically set NaN (bad values) to 'w',
+if you want to manually do so
+
+import matplotlib.cm as cm
+cmap = cm.gray
+cmap.set_bad('w', 1.)
+plt.imshow(np.real(ds), interpolation='nearest', cmap=cmap)
+"""
 ax = axes[0]
-
-im = ax.tripcolor(x, y, tri, np.real(delta_perm), shading="flat")
-ax.set_aspect("equal")
-
-# plot EIT reconstruction
-ax = axes[1]
-im = ax.tripcolor(x, y, tri, ds_n, shading="flat")
-for i, e in enumerate(mesh_obj.el_pos):
-    ax.annotate(str(i + 1), xy=(x[e], y[e]), color="r")
-ax.set_aspect("equal")
+im = ax.imshow(np.real(ds), interpolation="none", cmap=plt.cm.viridis)
+ax.axis("equal")
 
 fig.colorbar(im, ax=axes.ravel().tolist())
-# plt.savefig('../doc/images/demo_jac.png', dpi=96)
+# fig.savefig('../doc/images/demo_greit.png', dpi=96)
 plt.show()
+
 
 ############################################################################################################33333##3#3#
 root = tk.Tk()
