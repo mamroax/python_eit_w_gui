@@ -5,17 +5,103 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae81397d-50a1-4472-af20-b1729cf351af" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_dynamic_bp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_dynamic_greit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_dynamic_jac.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_dynamic_jac3d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_dynamic_stack.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_dynamic_svd.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_external_mesh.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_io_et3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_sensitivity2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_static_GN_3D.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/eit_static_jac.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/example_data/mesha06_bumpychestslice_radiological_view_both_lungs_1_0-3.ply" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/fem_forward2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/fem_forward3d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/merit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/mesh_distmesh2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/mesh_distmesh3d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/mesh_intro2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/mesh_multi_shell.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/paper_eit2016b.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/softx/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/softx/figure01.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/softx/figure02.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/softx/figure02b.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/examples/softx/figure03.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playground/eit_dynamic_greit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playground/eit_dynamic_jac.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playground/functions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playground/gui.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/app/Readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/Readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/base.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/bp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/fem.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/greit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/interp2d.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/jac.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/protocol.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/render.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/svd.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/eit/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/feature_extraction/Readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/feature_extraction/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/feature_extraction/dynamic_eit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/feature_extraction/mesh_geometry.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/feature_extraction/transfer_impedance.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/io/Readme.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/io/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/io/daeger_eit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/io/et3.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/io/et4.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/io/ewd.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/io/icp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/io/mes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/io/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/distmesh.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/external.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/mesh_circle.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/plot/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/plot/simconv.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/plot/tetplot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/plot/tetshade.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/plot/voronoi_plot.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/quality.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/shape.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/shell.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/utils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/mesh/wrapper.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/preprocess/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/quality/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/quality/merit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/visual/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pyeit/visual/plot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/classes.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/draw_breath.py" beforeDir="false" afterPath="$PROJECT_DIR$/playground/draw_breath.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/draw_chart.py" beforeDir="false" afterPath="$PROJECT_DIR$/playground/draw_chart.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experimental.txt" beforeDir="false" afterPath="$PROJECT_DIR$/playground/experimental.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gui.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -32,8 +118,59 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager">
-    <configuration name="gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\lefru\Desktop\python_eit_w_gui" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lefru\Desktop\python_eit_w_gui\playground" />
+      <recent name="C:\Users\lefru\Desktop\python_eit_w_gui\making_gui" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.eit_dynamic_greit">
+    <configuration name="draw_breath" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="python_eit_w_gui" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/draw_breath.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="draw_chart (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="python_eit_w_gui" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/draw_chart.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="draw_chart" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python_eit_w_gui" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -45,7 +182,49 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/gui.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\lefru\Desktop\python_eit_w_gui\playground\draw_chart.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="eit_dynamic_greit" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="python_eit_w_gui" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/eit_dynamic_greit.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="eit_dynamic_jac" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="python_eit_w_gui" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/eit_dynamic_jac.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -56,7 +235,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.gui" />
+        <item itemvalue="Python.eit_dynamic_greit" />
+        <item itemvalue="Python.eit_dynamic_jac" />
+        <item itemvalue="Python.draw_chart (1)" />
+        <item itemvalue="Python.draw_breath" />
+        <item itemvalue="Python.draw_chart" />
       </list>
     </recent_temporary>
   </component>
