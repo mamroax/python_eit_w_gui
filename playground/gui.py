@@ -9,7 +9,6 @@ import functions as f
 root = tk.Tk()
 
 x, breath_points, ind_max, ind_min = f.breath('experimental.txt', 1)
-
 figure3 = plt.Figure(figsize=(5, 4), dpi=100)
 ax3 = figure3.add_subplot(111)
 # ax3.scatter(x, breath_points, color='b')

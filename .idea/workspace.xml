@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ae81397d-50a1-4472-af20-b1729cf351af" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/playground/gui_new.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/playground/tkinter_examples/button.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/playground/tkinter_examples/canvas.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/playground/tkinter_examples/checkbutton.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/playground/tkinter_examples/entry.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/playground/tkinter_examples/frame.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/playground/tkinter_examples/label.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/playground/tkinter_examples/listbox.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/playground/tkinter_examples/menubutton.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playground/close_window.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/playground/functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground/gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/playground/gui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground/gui_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/playground/gui_new.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,8 +48,8 @@
       <recent name="C:\Users\lefru\Desktop\python_eit_w_gui\making_gui" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.radiobutton">
-    <configuration name="listbox" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.gui_new">
+    <configuration name="close_window" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python_eit_w_gui" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -62,11 +57,32 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground/tkinter_examples" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/tkinter_examples/listbox.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/close_window.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="gui_new" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="python_eit_w_gui" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/gui_new.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -88,27 +104,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/tkinter_examples/menu.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="menubutton" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="python_eit_w_gui" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground/tkinter_examples" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/tkinter_examples/menubutton.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -161,11 +156,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.gui_new" />
+        <item itemvalue="Python.close_window" />
         <item itemvalue="Python.radiobutton" />
         <item itemvalue="Python.message" />
         <item itemvalue="Python.menu" />
-        <item itemvalue="Python.menubutton" />
-        <item itemvalue="Python.listbox" />
       </list>
     </recent_temporary>
   </component>
