@@ -56,13 +56,8 @@ class App(customtkinter.CTk):
         self.main_button_1.grid(row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
         # making a frame for adding charts
-        self.chart_frame = customtkinter.CTkFrame(self)
-        self.chart_frame.grid(row=0, column=1, padx=(10,10), pady=(10, 10), sticky="nsew")
-
-        # # create radiobutton frame
-        # self.radiobutton_frame = customtkinter.CTkFrame(self)
-        # self.radiobutton_frame.grid(row=0, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew")
-        # self.radio_var = tkinter.IntVar(value=0)
+        # self.chart_frame = customtkinter.CTkFrame(self)
+        # self.chart_frame.grid(row=0, column=1, padx=(10,10), pady=(10, 10), sticky="nsew")
 
         # # create scrollable frame
         # self.scrollable_frame = customtkinter.CTkScrollableFrame(self, label_text="Настройки для визуализации")
@@ -74,24 +69,15 @@ class App(customtkinter.CTk):
         #     switch.grid(row=i, column=0, padx=10, pady=(0, 20))
         #     self.scrollable_frame_switches.append(switch)
 
-        # # create checkbox and switch frame
-        # self.checkbox_slider_frame = customtkinter.CTkFrame(self)
-        # self.checkbox_slider_frame.grid(row=1, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew")
-        # self.checkbox_1 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
-        # self.checkbox_1.grid(row=1, column=0, pady=(20, 0), padx=20, sticky="n")
-        # self.checkbox_2 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
-        # self.checkbox_2.grid(row=2, column=0, pady=(20, 0), padx=20, sticky="n")
-        # self.checkbox_3 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
-        # self.checkbox_3.grid(row=3, column=0, pady=20, padx=20, sticky="n")
+        self.scrollable_frame = customtkinter.CTkScrollableFrame(self, label_text="Настройки для визуализации")
+        self.scrollable_frame.grid(row=0, column=1, padx=(20, 20), pady=(20, 20), sticky="nsew")
+        self.scrollable_frame_switches = []
+
 
         # set default values
         self.sidebar_button_1.configure(state="enabled", text="Первое окно")
         self.sidebar_button_2.configure(state="enabled", text="Второе окно")
         self.sidebar_button_3.configure(state="enabled", text="Третье окно")
-        # self.checkbox_3.configure(state="disabled")
-        # self.checkbox_1.select()
-        # self.scrollable_frame_switches[0].select()
-        # self.scrollable_frame_switches[4].select()
         self.appearance_mode_optionemenu.set("Dark")
         self.scaling_optionemenu.set("100%")
 
@@ -113,8 +99,12 @@ class App(customtkinter.CTk):
         """Создание обьекта, содержащего график и таблицу с математическими рассчетами"""
         # ДЛЯ НАЧАЛА ПРОСТО ВЫВЕДУ ГРАФИК
         print(self.entry.get())
-        # functions.build_graph(self.chart_frame, self.entry.get(), 1)
-        functions.make_table(self.chart_frame)
+        # в скроллбар добавить получилось(наконец-то!)
+        self.scrollable_frame_switches.append(functions.build_graph(self.scrollable_frame, self.entry.get(), 1))
+        # теперь нужно подумать как удалить выбранный график
+
+        # как приладить к графику справа таблицу?
+        # functions.make_table(self.chart_frame)
 
 
 if __name__ == "__main__":

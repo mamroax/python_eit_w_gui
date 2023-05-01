@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d95dc5c-acc4-419a-aee0-44bfbc0a3cbd" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/custom_tkinter_examples/complicated_GUI.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_tkinter_examples/experimental.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_tkinter_examples/functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/python_eit_w_gui.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/python_eit_w_gui.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playground/learning_python/functions_example.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playground/learning_python/json_examples.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playground/learning_python/lambda_function_example.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/playground/learning_python/modules_examples.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/playground/gui_new.py" beforeDir="false" afterPath="$PROJECT_DIR$/playground/gui_new.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_tkinter_examples/complicated_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_tkinter_examples/complicated_GUI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playground/learning_tkinter/what_is_tkinter.py" beforeDir="false" afterPath="$PROJECT_DIR$/playground/learning_python/classes_example.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +48,7 @@
       <recent name="C:\Users\mamro\Desktop\python_eit_w_gui\custom_tkinter_examples" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.gui">
+  <component name="RunManager" selected="Python.complicated_GUI">
     <configuration name="complicated_GUI" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python_eit_w_gui" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -73,7 +70,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="functions" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="json_examples" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python_eit_w_gui" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -81,11 +78,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/custom_tkinter_examples" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground/learning_python" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/custom_tkinter_examples/functions.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/learning_python/json_examples.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -94,7 +91,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="gui" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="modules_examples (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python_eit_w_gui" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -102,11 +99,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground/learning_python" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/gui.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/learning_python/modules_examples.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -115,7 +112,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="gui_new" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="modules_examples" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python_eit_w_gui" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -123,11 +120,32 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground/learning_python" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/gui_new.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\mamro\Desktop\python_eit_w_gui\playground\learning_python\modules_examples.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="what_is_tkinter" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="python_eit_w_gui" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground/learning_tkinter" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/learning_tkinter/what_is_tkinter.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -138,10 +156,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.gui" />
-        <item itemvalue="Python.gui_new" />
         <item itemvalue="Python.complicated_GUI" />
-        <item itemvalue="Python.functions" />
+        <item itemvalue="Python.what_is_tkinter" />
+        <item itemvalue="Python.json_examples" />
+        <item itemvalue="Python.modules_examples (1)" />
+        <item itemvalue="Python.modules_examples" />
       </list>
     </recent_temporary>
   </component>
