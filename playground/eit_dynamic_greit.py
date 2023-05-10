@@ -101,7 +101,3 @@ ax.axis("equal")
 fig.colorbar(im, ax=axes.ravel().tolist())
 # fig.savefig('../doc/images/demo_greit.png', dpi=96)
 plt.show()
-
-
-
-
