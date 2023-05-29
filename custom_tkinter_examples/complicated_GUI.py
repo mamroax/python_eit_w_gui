@@ -2,7 +2,7 @@ import tkinter
 import tkinter.messagebox
 import customtkinter
 import functions
-from tkinter import ttk
+from tkinter import *
 
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -77,7 +77,6 @@ class App(customtkinter.CTk):
         self.scrollable_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
         self.scrollable_frame_switches = []
 
-
         # set default values
         self.sidebar_button_1.configure(state="enabled", text="Первое окно")
         self.sidebar_button_2.configure(state="enabled", text="Второе окно")
@@ -114,19 +113,27 @@ class App(customtkinter.CTk):
         """Создание обьекта, содержащего график и таблицу с математическими рассчетами"""
         # ДЛЯ НАЧАЛА ПРОСТО ВЫВЕДУ ГРАФИК
         # в скроллбар добавить получилось(наконец-то!)
+        new_frame1 = Frame(master=self.scrollable_frame)
+        new_frame1.pack(fill=X, side=TOP, padx=(20, 20), pady=(20, 20))
+        new_frame2 = Frame(master=self.scrollable_frame)
+        new_frame2.pack(fill=X,side=TOP, padx=(20, 20), pady=(20, 20))
+        new_frame3 = Frame(master=self.scrollable_frame)
+        new_frame3.pack(fill=X, side=TOP, padx=(20, 20), pady=(20, 20))
 
-        self.scrollable_frame_switches.append(functions.build_graph(self.scrollable_frame, "какой-то путь", self.entry.get()))
+        self.scrollable_frame_switches.append(functions.build_graph(new_frame1, "какой-то путь", self.entry.get()))
         # теперь нужно подумать как удалить выбранный график(сделано)
         # как приладить к графику справа таблицу?
-        functions.make_table(self.scrollable_frame, self.entry.get())
+        self.scrollable_frame_switches.append(
+            functions.make_table(new_frame2, self.entry.get()))
         self.sidebar_button_1 = customtkinter.CTkButton(self.scrollable_frame, command=self.delete_frame, text="удалить")
-        self.sidebar_button_1.pack(padx=20, pady=10)
+        self.sidebar_button_1.pack(side=TOP, padx=20, pady=10)
         # добавить графики реконструированного дыхания с выводом названия алгоритма
         # вывод графиков дыхания раздельно для левого и правого легких
         # желательно сделать вывод всех графиков в одной строке последовательно с возможностью прокрутки
         # добавить функцию для вывода всех графиков в одном по нажатию кнопки
         # либо добавлять все графики сразу по умолчанию в одно окно
-        functions.make_reconstruction(self.scrollable_frame)
+        self.scrollable_frame_switches.append(
+            functions.make_reconstruction(new_frame3))
 
 if __name__ == "__main__":
     app = App()
