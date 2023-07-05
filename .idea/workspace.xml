@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d95dc5c-acc4-419a-aee0-44bfbc0a3cbd" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/playground/drawing_graphs/graph_1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/custom_tkinter_examples/complicated_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_tkinter_examples/complicated_GUI.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/custom_tkinter_examples/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_tkinter_examples/functions.py" afterDir="false" />
@@ -129,7 +130,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="listbox" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="graph_1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python_eit_w_gui" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -137,11 +138,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground/tkinter_examples" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/playground/drawing_graphs" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/tkinter_examples/listbox.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/playground/drawing_graphs/graph_1.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -153,10 +154,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.complicated_GUI" />
+        <item itemvalue="Python.graph_1" />
         <item itemvalue="Python.eit_dynamic_greit" />
         <item itemvalue="Python.eit_dynamic_jac" />
         <item itemvalue="Python.functions" />
-        <item itemvalue="Python.listbox" />
       </list>
     </recent_temporary>
   </component>

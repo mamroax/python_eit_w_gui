@@ -8,9 +8,9 @@ from pyeit.mesh import create
 import pyeit.eit.protocol as protocol
 import pyeit.eit.greit as greit
 
-"""1)Необходимо дописать функцию, которая будет брать измерительные кадры после усреднения
-    2)Написать функцию, которая будет поворачивать изображение легких
-    3)Написать функцию, которая будет отображать несколько графиков в одном"""
+"""1)Необходимо дописать функцию, которая будет брать измерительные кадры после усреднения - почти сделал
+    2)Написать функцию, которая будет поворачивать изображение легких - сделано
+    3)Написать функцию, которая будет отображать несколько графиков в одном - сделано"""
 
 def get_breath_list(file_path: str) -> list[list[float]]:
     try:
@@ -35,7 +35,6 @@ def get_rotated_list(breath_list: list[list[float]], rotate_num: int) -> list[li
     finally:
         return result
 
-
 def breath(file_path: str, num_of_frames: int):
     try:
         # matrix = get_breath_list(file_path)
@@ -45,7 +44,7 @@ def breath(file_path: str, num_of_frames: int):
         # print("Длина одного измерительного кадра ", len(get_breath_list(file_path)[0]))
         # breath_file = open(file_path)
         # breath_matrix = [line.split("	") for line in breath_file]
-        rotation_number = 100
+        rotation_number = 0
         breath_matrix = get_rotated_list(get_breath_list(file_path), rotation_number)
         breath_points = []
         x = [i for i in range(0, 450, num_of_frames)]
@@ -67,14 +66,29 @@ def breath(file_path: str, num_of_frames: int):
                 max_value_index = i
             breath_points.append(average)
     except Exception:
-        print('Error') # Вывод информации об ошибке
+        print('Error in breath function') # Вывод информации об ошибке
     # finally:
         # breath_file.close() # закрытие файла
     return [x, breath_points, min_value_index, max_value_index]
 
-def build_all_graphs(root: tk.Tk, path, number_of_frames):
+def build_all_graphs(root: tk.Tk, path, number_of_frames, coord):
     """Необходимо написать функцию так, чтобы каждый раз добавлялся новый массив координат
     и рисовался очередной график"""
+    x, breath_points = get_coord_list(number_of_frames)
+    figure3 = plt.Figure(figsize=(5, 4), dpi=100)
+    ax3 = figure3.add_subplot(111)
+    coord = coord + [x, breath_points, 'b']
+    ax3.plot(*coord)
+    scatter3 = FigureCanvasTkAgg(figure3, root)
+    scatter3.get_tk_widget().pack(fill=BOTH)
+    ax3.legend(['средняя разница напряжений'])
+    ax3.set_xlabel('измерительные точки')
+    ax3.set_ylabel('напряжение(В)')
+    ax3.set_title('График дыхания')
+    return coord
+
+def get_coord_list(number_of_frames):
+    """Эта функция нужна для того, чтобы вернуть координаты нового графика"""
     if isinstance(number_of_frames, str):
         try:
             number_of_frames = int(number_of_frames)
@@ -82,17 +96,10 @@ def build_all_graphs(root: tk.Tk, path, number_of_frames):
             print('Введите числовое значение', number_of_frames)
             number_of_frames = 1  # дефолтное значение
         finally:
-            x, breath_points, ind_max, ind_min = breath('experimental.txt', number_of_frames)
-            # figure3 = plt.Figure(figsize=(5, 4), dpi=100)
-            # ax3 = figure3.add_subplot(111)
-            # # ax3.scatter(x, breath_points, color='b')
-            # ax3.plot(x, breath_points, color='b')
-            # scatter3 = FigureCanvasTkAgg(figure3, root)
-            # scatter3.get_tk_widget().pack(fill=BOTH)
-            # ax3.legend(['average voltage difference'])
-            # ax3.set_xlabel('measurement points')
-            # ax3.set_ylabel('voltage(V)')
-            # ax3.set_title('Breating chart')
+            x, breath_points, ind_min, ind_max = breath('experimental.txt', number_of_frames)
+            print("максимальный вдох имеет индекс", ind_max)
+            print("минимальный выдох имеет индекс", ind_min)
+            return [x, breath_points]
 
 def build_graph(root: tk.Tk, path, number_of_frames):
     if isinstance(number_of_frames, str):
@@ -105,14 +112,13 @@ def build_graph(root: tk.Tk, path, number_of_frames):
             x, breath_points, ind_max, ind_min = breath('experimental.txt', number_of_frames)
             figure3 = plt.Figure(figsize=(5, 4), dpi=100)
             ax3 = figure3.add_subplot(111)
-            # ax3.scatter(x, breath_points, color='b')
             ax3.plot(x, breath_points, color='b')
             scatter3 = FigureCanvasTkAgg(figure3, root)
             scatter3.get_tk_widget().pack(fill=BOTH)
-            ax3.legend(['average voltage difference'])
-            ax3.set_xlabel('measurement points')
-            ax3.set_ylabel('voltage(V)')
-            ax3.set_title('Breating chart')
+            ax3.legend(['средняя разница напряжений'])
+            ax3.set_xlabel('измерительные точки')
+            ax3.set_ylabel('напряжение(В)')
+            ax3.set_title('График дыхания')
 
 class Table:
     def __init__(self, root: tk.Frame, lst: list[set]):
@@ -169,12 +175,14 @@ def make_table(root: tk.Tk, num_of_frames):
              (num_of_frames, "max", "min", AllMath.expected_value('experimental.txt')[0],
               AllMath.dispersion('experimental.txt'), AllMath.standard_deviation('experimental.txt'))]
     # создадим новый фрейм
-
     t = Table(root, list1)
 
-def make_reconstruction(root: tk.Tk, *args):
-    min_index = 11 # вот этот индекс нужно высчитывать и передавать в функцию реконструкции изображения
-    max_index = 339 # этот параметр будет передан
+def make_reconstruction(root: tk.Tk, number_of_frames):
+    if number_of_frames == '':
+        number_of_frames = 1
+    x, breath_points, ind_min, ind_max = breath('experimental.txt', number_of_frames)
+    min_index = ind_min #11 # вот этот индекс нужно высчитывать и передавать в функцию реконструкции изображения
+    max_index = ind_max #339 # этот параметр будет передан
     # необходимо пересчитывать максимальный и минимальный индекс
 
     n_el = 16
@@ -209,6 +217,6 @@ def make_reconstruction(root: tk.Tk, *args):
 
     im = axes.imshow(np.real(ds), interpolation="none", cmap=plt.cm.viridis)
 
-    fig.colorbar(im, ax=axes.ravel().tolist())
+    # fig.colorbar(im, ax=axes.ravel().tolist())
 
     # нужно добавить функцию для отображения нескольких графиков на одном для сравнения
