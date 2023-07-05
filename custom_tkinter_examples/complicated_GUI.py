@@ -7,7 +7,6 @@ from tkinter import *
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("dark-blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
-
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -73,8 +72,11 @@ class App(customtkinter.CTk):
         #     switch.grid(row=i, column=0, padx=10, pady=(0, 20))
         #     self.scrollable_frame_switches.append(switch)
 
+        self.frame = Frame(master=self)
+        self.frame.grid(row=0, column=1, rowspan=1, columnspan=3, padx=(20, 20), pady = (20, 20), sticky = "nsew")
+
         self.scrollable_frame = customtkinter.CTkScrollableFrame(self, label_text="Визуализация")
-        self.scrollable_frame.grid(row=0, column=1, rowspan=3, columnspan=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
+        self.scrollable_frame.grid(row=1, column=1, rowspan=2, columnspan=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
         self.scrollable_frame_switches = []
 
         # set default values
@@ -121,6 +123,8 @@ class App(customtkinter.CTk):
         new_frame3.pack(fill=X, side=TOP, padx=(20, 20), pady=(20, 20))
 
         self.scrollable_frame_switches.append(functions.build_graph(new_frame1, "какой-то путь", self.entry.get()))
+        functions.build_all_graphs(self.frame, "какой-то путь", self.entry.get())
+
         # теперь нужно подумать как удалить выбранный график(сделано)
         # как приладить к графику справа таблицу?
         self.scrollable_frame_switches.append(
