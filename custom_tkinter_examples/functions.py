@@ -72,22 +72,32 @@ def get_framed_list(file_path: str, num_of_frames: int) -> [[]]:
         for j in range(len(breath_matrix[0])):
             sum = 0 # переменная для хранения склеиваемых значений напряжения
             for k in range(num_of_frames):
-                sum = sum + breath_matrix[i+k][j]
+                sum = sum + float(breath_matrix[i+k][j])
             breath_points.append(sum/num_of_frames)
         result.append(breath_points)
     return result
 
 def get_framed_breath(file_path, num_of_frames):
-    try:
-        breath_matrix = get_framed_list(file_path, num_of_frames)
-        breath_points = []
-        x = [i for i in range(0, len(breath_matrix)*num_of_frames, num_of_frames)]
-        min_value_index = 0
-        max_value_index = 0
-    except Exception:
-        print('Error in breath function') # Вывод информации об ошибке
-    finally:
-        return [x, breath_points, min_value_index, max_value_index]
+    breath_matrix = get_framed_list(file_path, num_of_frames)
+    x = [i for i in range(0, len(breath_matrix) * num_of_frames, num_of_frames)]
+    min_value_index = 0
+    max_value_index = 0
+    max_value = 0
+    min_value = 1
+    # сначала посчитаем среднее в массиве, но запоминать не будем
+    for i in range(len(breath_matrix)): # i - это номер кадра
+        sum = 0 # переменная для определения суммы кадра
+        for j in range(len(breath_matrix[i])): # j - это номер измеренной разности потенциалов в кадре
+            sum = sum + float(breath_matrix[i][j])
+        avg = sum / len(breath_matrix[i])
+        if avg < min_value:
+            min_value = avg
+            min_value_index = i
+        if avg > max_value:
+            max_value = avg
+            max_value_index = i
+    return [x, breath_matrix, min_value_index, max_value_index]
+
 
 
 def build_all_graphs(root: tk.Tk, path, number_of_frames, coord):
@@ -199,12 +209,16 @@ def make_table(root: tk.Tk, num_of_frames):
 def make_reconstruction(root: tk.Tk, number_of_frames):
     if number_of_frames == '':
         number_of_frames = 1
-    x, breath_points, ind_min, ind_max = breath('experimental.txt', number_of_frames)
+    try:
+        num_of_frames = int(number_of_frames)
+    except Exception:
+        print('Error in make_reconstruction - not an int number')
+    x, breath_matrix, ind_min, ind_max = get_framed_breath('experimental.txt', num_of_frames)
     # print("Вывожу breath_points")
     # [print() for i in range(10)]
     # print(breath_points)
-    min_index = 11 # вот этот индекс нужно высчитывать и передавать в функцию реконструкции изображения
-    max_index = 339 # этот параметр будет передан
+    min_index = ind_min#11 # вот этот индекс нужно высчитывать и передавать в функцию реконструкции изображения
+    max_index = ind_max#339 # этот параметр будет передан
     # необходимо пересчитывать максимальный и минимальный индекс
 
     n_el = 16
@@ -214,13 +228,15 @@ def make_reconstruction(root: tk.Tk, number_of_frames):
 
     # breath_file = open('experimental.txt') # нужно не файл открывать, а передавать список как аргумент функции
     # breath_matrix = [line.split("	") for line in breath_file] # вместо вот этого
-    breath_matrix = breath(file_path)
+    # breath_matrix = breath(file_path)
     # print("Вывожу breath_matrix")
     # [print() for i in range(10)]
     # print(breath_matrix)
     # print(breath_points==breath_matrix)
     # print("Тип breath_matrix",type(breath_matrix))
     # print("Тип breath_points",type(breath_points))
+    print("max index ", max_index)
+    print("min index ", min_index)
     v1 = np.array([float(i) for i in breath_matrix[max_index]])  # жестко заданы максимальный(вдох)
     v0 = np.array([float(i) for i in breath_matrix[min_index]])  # и минимальный(выдох) кадры дыхания
 
