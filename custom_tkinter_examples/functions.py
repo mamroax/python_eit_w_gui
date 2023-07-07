@@ -37,15 +37,7 @@ def get_rotated_list(breath_list: list[list[float]], rotate_num: int) -> list[li
 
 def breath(file_path: str, num_of_frames: int):
     try:
-        # matrix = get_breath_list(file_path)
-        # print(matrix)
-        # print(matrix[0])
-        # print("Длина списка ",len(get_breath_list(file_path)))
-        # print("Длина одного измерительного кадра ", len(get_breath_list(file_path)[0]))
-        # breath_file = open(file_path)
-        # breath_matrix = [line.split("	") for line in breath_file]
-        rotation_number = 0
-        breath_matrix = get_rotated_list(get_breath_list(file_path), rotation_number)
+        breath_matrix = get_breath_list(file_path)
         breath_points = []
         x = [i for i in range(0, 450, num_of_frames)]
         min_value_index = 0
@@ -71,6 +63,33 @@ def breath(file_path: str, num_of_frames: int):
         # breath_file.close() # закрытие файла
     return [x, breath_points, min_value_index, max_value_index]
 
+def get_framed_list(file_path: str, num_of_frames: int) -> [[]]:
+    """Функция вернет раскадровку списка с измерениями"""
+    breath_matrix = get_breath_list(file_path) # получаем матрицу дыхания
+    result = []
+    for i in range(0, len(breath_matrix), num_of_frames):
+        breath_points = []  # переменная для хранения склеенных кадров
+        for j in range(len(breath_matrix[0])):
+            sum = 0 # переменная для хранения склеиваемых значений напряжения
+            for k in range(num_of_frames):
+                sum = sum + breath_matrix[i+k][j]
+            breath_points.append(sum/num_of_frames)
+        result.append(breath_points)
+    return result
+
+def get_framed_breath(file_path, num_of_frames):
+    try:
+        breath_matrix = get_framed_list(file_path, num_of_frames)
+        breath_points = []
+        x = [i for i in range(0, len(breath_matrix)*num_of_frames, num_of_frames)]
+        min_value_index = 0
+        max_value_index = 0
+    except Exception:
+        print('Error in breath function') # Вывод информации об ошибке
+    finally:
+        return [x, breath_points, min_value_index, max_value_index]
+
+
 def build_all_graphs(root: tk.Tk, path, number_of_frames, coord):
     """Необходимо написать функцию так, чтобы каждый раз добавлялся новый массив координат
     и рисовался очередной график"""
@@ -88,7 +107,8 @@ def build_all_graphs(root: tk.Tk, path, number_of_frames, coord):
     return coord
 
 def get_coord_list(number_of_frames):
-    """Эта функция нужна для того, чтобы вернуть координаты нового графика"""
+    """Эта функция нужна для того, чтобы вернуть координаты нового графика
+    для общего графика"""
     if isinstance(number_of_frames, str):
         try:
             number_of_frames = int(number_of_frames)
@@ -163,7 +183,6 @@ class AllMath():  # написал подсчет дисперсии относ�
         except Exception:
             print('Ошибка в вычислении дисперсии')
         return result
-
     @staticmethod
     def standard_deviation(path):  # расчет среднеквадратического отклонения(s0)
         return AllMath.dispersion(path) ** (1 / 2)
@@ -181,8 +200,11 @@ def make_reconstruction(root: tk.Tk, number_of_frames):
     if number_of_frames == '':
         number_of_frames = 1
     x, breath_points, ind_min, ind_max = breath('experimental.txt', number_of_frames)
-    min_index = ind_min #11 # вот этот индекс нужно высчитывать и передавать в функцию реконструкции изображения
-    max_index = ind_max #339 # этот параметр будет передан
+    # print("Вывожу breath_points")
+    # [print() for i in range(10)]
+    # print(breath_points)
+    min_index = 11 # вот этот индекс нужно высчитывать и передавать в функцию реконструкции изображения
+    max_index = 339 # этот параметр будет передан
     # необходимо пересчитывать максимальный и минимальный индекс
 
     n_el = 16
@@ -192,8 +214,13 @@ def make_reconstruction(root: tk.Tk, number_of_frames):
 
     # breath_file = open('experimental.txt') # нужно не файл открывать, а передавать список как аргумент функции
     # breath_matrix = [line.split("	") for line in breath_file] # вместо вот этого
-    breath_matrix = get_breath_list(file_path)
-
+    breath_matrix = breath(file_path)
+    # print("Вывожу breath_matrix")
+    # [print() for i in range(10)]
+    # print(breath_matrix)
+    # print(breath_points==breath_matrix)
+    # print("Тип breath_matrix",type(breath_matrix))
+    # print("Тип breath_points",type(breath_points))
     v1 = np.array([float(i) for i in breath_matrix[max_index]])  # жестко заданы максимальный(вдох)
     v0 = np.array([float(i) for i in breath_matrix[min_index]])  # и минимальный(выдох) кадры дыхания
 
