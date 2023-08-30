@@ -8,22 +8,19 @@ from pyeit.mesh import create
 import pyeit.eit.protocol as protocol
 import pyeit.eit.greit as greit
 
-"""1)Необходимо дописать функцию, которая будет брать измерительные кадры после усреднения - почти сделал
-    2)Написать функцию, которая будет поворачивать изображение легких - сделано
-    3)Написать функцию, которая будет отображать несколько графиков в одном - сделано"""
-
 def get_breath_list(file_path: str) -> list[list[float]]:
     try:
         breath_file = open(file_path)
         breath_list = [line.split("	") for line in breath_file]
     except Exception:
-        print('Error in get_breath_list function')  # Вывод информации об ошибке
+        print('Error in get_breath_list function')
     finally:
-        breath_file.close()  # закрытие файла
+        breath_file.close()
     return breath_list
 
 def get_rotated_list(breath_list: list[list[float]], rotate_num: int) -> list[list[int]]:
-    """Функция сдвигает список с измерениями для того, чтобы крутить изображение легких"""
+    """The function shifts the list with measurements in order to rotate the image of the lungs
+    (yet not working as it was intended to)"""
     try:
         result = []
         rotate_num = rotate_num % len(breath_list[0])
@@ -58,19 +55,17 @@ def breath(file_path: str, num_of_frames: int):
                 max_value_index = i
             breath_points.append(average)
     except Exception:
-        print('Error in breath function') # Вывод информации об ошибке
-    # finally:
-        # breath_file.close() # закрытие файла
+        print('Error in breath function')
     return [x, breath_points, min_value_index, max_value_index]
 
 def get_framed_list(file_path: str, num_of_frames: int) -> [[]]:
-    """Функция вернет раскадровку списка с измерениями"""
-    breath_matrix = get_breath_list(file_path) # получаем матрицу дыхания
+    """The function will return a list storyboard with dimensions"""
+    breath_matrix = get_breath_list(file_path) # get the breath matrix
     result = []
     for i in range(0, len(breath_matrix), num_of_frames):
-        breath_points = []  # переменная для хранения склеенных кадров
+        breath_points = []  # variable for storing glued frames
         for j in range(len(breath_matrix[0])):
-            sum = 0 # переменная для хранения склеиваемых значений напряжения
+            sum = 0 # variable for storing glued voltage values
             for k in range(num_of_frames):
                 sum = sum + float(breath_matrix[i+k][j])
             breath_points.append(sum/num_of_frames)
@@ -84,10 +79,10 @@ def get_framed_breath(file_path, num_of_frames):
     max_value_index = 0
     max_value = 0
     min_value = 1
-    # сначала посчитаем среднее в массиве, но запоминать не будем
-    for i in range(len(breath_matrix)): # i - это номер кадра
-        sum = 0 # переменная для определения суммы кадра
-        for j in range(len(breath_matrix[i])): # j - это номер измеренной разности потенциалов в кадре
+    # first we calculate the average in the list, but we will not remember it
+    for i in range(len(breath_matrix)): # i - number of frame
+        sum = 0 # variable to determine the sum of the frame
+        for j in range(len(breath_matrix[i])): # j - this is the number of the measured potential difference in the frame
             sum = sum + float(breath_matrix[i][j])
         avg = sum / len(breath_matrix[i])
         if avg < min_value:
@@ -101,8 +96,8 @@ def get_framed_breath(file_path, num_of_frames):
 
 
 def build_all_graphs(root: tk.Tk, path, number_of_frames, coord):
-    """Необходимо написать функцию так, чтобы каждый раз добавлялся новый массив координат
-    и рисовался очередной график"""
+    """It is necessary to write a function so that a new array of coordinates is added each time
+    and draw another graph"""
     x, breath_points = get_coord_list(number_of_frames)
     figure3 = plt.Figure(figsize=(5, 4), dpi=100)
     ax3 = figure3.add_subplot(111)
@@ -110,25 +105,25 @@ def build_all_graphs(root: tk.Tk, path, number_of_frames, coord):
     ax3.plot(*coord)
     scatter3 = FigureCanvasTkAgg(figure3, root)
     scatter3.get_tk_widget().pack(fill=BOTH)
-    ax3.legend(['средняя разница напряжений'])
-    ax3.set_xlabel('измерительные точки')
-    ax3.set_ylabel('напряжение(В)')
-    ax3.set_title('График дыхания')
+    ax3.legend(['average voltage difference'])
+    ax3.set_xlabel('measuring points')
+    ax3.set_ylabel('voltage(V)')
+    ax3.set_title('Breath chart')
     return coord
 
 def get_coord_list(number_of_frames):
-    """Эта функция нужна для того, чтобы вернуть координаты нового графика
-    для общего графика"""
+    """This function is needed in order to return the coordinates of the new chart
+    for general graph"""
     if isinstance(number_of_frames, str):
         try:
             number_of_frames = int(number_of_frames)
         except Exception:
-            print('Введите числовое значение', number_of_frames)
+            print('Enter a numeric value', number_of_frames)
             number_of_frames = 1  # дефолтное значение
         finally:
             x, breath_points, ind_min, ind_max = breath('experimental.txt', number_of_frames)
-            print("максимальный вдох имеет индекс", ind_max)
-            print("минимальный выдох имеет индекс", ind_min)
+            print("maximum breath has an index", ind_max)
+            print("minimum breath has an index", ind_min)
             return [x, breath_points]
 
 def build_graph(root: tk.Tk, path, number_of_frames):
@@ -136,8 +131,8 @@ def build_graph(root: tk.Tk, path, number_of_frames):
         try:
             number_of_frames = int(number_of_frames)
         except Exception:
-            print('Введите числовое значение', number_of_frames)
-            number_of_frames = 1  # дефолтное значение
+            print('Enter a numeric value', number_of_frames)
+            number_of_frames = 1  # default value
         finally:
             x, breath_points, ind_max, ind_min = breath('experimental.txt', number_of_frames)
             figure3 = plt.Figure(figsize=(5, 4), dpi=100)
@@ -145,10 +140,10 @@ def build_graph(root: tk.Tk, path, number_of_frames):
             ax3.plot(x, breath_points, color='b')
             scatter3 = FigureCanvasTkAgg(figure3, root)
             scatter3.get_tk_widget().pack(fill=BOTH)
-            ax3.legend(['средняя разница напряжений'])
-            ax3.set_xlabel('измерительные точки')
-            ax3.set_ylabel('напряжение(В)')
-            ax3.set_title('График дыхания')
+            ax3.legend(['average voltage difference'])
+            ax3.set_xlabel('measuring points')
+            ax3.set_ylabel('voltage(V)')
+            ax3.set_title('Breath chart')
 
 class Table:
     def __init__(self, root: tk.Frame, lst: list[set]):
@@ -162,11 +157,11 @@ class Table:
                 self.e.grid(row=i, column=j)
                 self.e.insert(tk.END, lst[i][j])
 
-class AllMath():  # написал подсчет дисперсии относительно вообще всей информации в таблице
+class AllMath(): # wrote a variance calculation relative to all information in the table
     @staticmethod
-    def expected_value(path):  # расчет матожидания (M)
-        """Расчитывает матожидание, возвращает список, первый элемент - матожидание,
-         второй элемент - список с параметрами дыхания"""
+    def expected_value(path):  # calculation of Expected value (M)
+        """Calculates the expected value, returns a list, the first element is the expected value,
+         the second element is a list with breathing parameters"""
         try:
             breath_file = open(path)
             breath_matrix = [line.split("	") for line in breath_file]
@@ -176,13 +171,13 @@ class AllMath():  # написал подсчет дисперсии относ�
                     summa += float(value)
             result = summa / (len(breath_matrix) * len(breath_matrix[0]))
         except Exception:
-            print('Ошибка в вычислении математического ожидания')
+            print('Error in calculating the Expected value')
         finally:
             breath_file.close()
         return [result, breath_matrix]
 
     @staticmethod
-    def dispersion(path):  # расчет дисперсии (D)
+    def dispersion(path):  # variance calculation (D)
         try:
             average, breath_matrix = AllMath.expected_value(path)
             summa = 0
@@ -191,19 +186,18 @@ class AllMath():  # написал подсчет дисперсии относ�
                     summa += ((float(value) - average) ** 2)
             result = summa / (len(breath_matrix) * len(breath_matrix[0]))
         except Exception:
-            print('Ошибка в вычислении дисперсии')
+            print('Error in calculating the variance')
         return result
     @staticmethod
-    def standard_deviation(path):  # расчет среднеквадратического отклонения(s0)
+    def standard_deviation(path):  # calculation of standard_deviation(s0)
         return AllMath.dispersion(path) ** (1 / 2)
 
 def make_table(root: tk.Tk, num_of_frames):
     if num_of_frames == '':
         num_of_frames = 1
-    list1 = [("Количество кадров n", "max", "min", "матожидание M(x)", "дисперсия D(x)", "СКО s0"),
+    list1 = [("Number of frames n", "max", "min", "Expected value M(x)", "variance D(x)", "standard deviation s0"),
              (num_of_frames, "max", "min", AllMath.expected_value('experimental.txt')[0],
               AllMath.dispersion('experimental.txt'), AllMath.standard_deviation('experimental.txt'))]
-    # создадим новый фрейм
     t = Table(root, list1)
 
 def make_reconstruction(root: tk.Tk, number_of_frames):
@@ -214,27 +208,16 @@ def make_reconstruction(root: tk.Tk, number_of_frames):
     except Exception:
         print('Error in make_reconstruction - not an int number')
     x, breath_matrix, ind_min, ind_max = get_framed_breath('experimental.txt', num_of_frames)
-    # print("Вывожу breath_points")
-    # [print() for i in range(10)]
-    # print(breath_points)
-    min_index = ind_min#11 # вот этот индекс нужно высчитывать и передавать в функцию реконструкции изображения
-    max_index = ind_max#339 # этот параметр будет передан
-    # необходимо пересчитывать максимальный и минимальный индекс
+
+    min_index = ind_min#11 # this index needs to be calculated and passed to the image reconstruction function
+    max_index = ind_max#339 # this parameter will be passed
+    # it is necessary to recalculate the maximum and minimum index
 
     n_el = 16
     mesh_obj = create(n_el, h0=0.05)
 
     file_path = 'experimental.txt'
 
-    # breath_file = open('experimental.txt') # нужно не файл открывать, а передавать список как аргумент функции
-    # breath_matrix = [line.split("	") for line in breath_file] # вместо вот этого
-    # breath_matrix = breath(file_path)
-    # print("Вывожу breath_matrix")
-    # [print() for i in range(10)]
-    # print(breath_matrix)
-    # print(breath_points==breath_matrix)
-    # print("Тип breath_matrix",type(breath_matrix))
-    # print("Тип breath_points",type(breath_points))
     print("max index ", max_index)
     print("min index ", min_index)
     v1 = np.array([float(i) for i in breath_matrix[max_index]])  # жестко заданы максимальный(вдох)
@@ -246,20 +229,24 @@ def make_reconstruction(root: tk.Tk, number_of_frames):
                                    parser_meas="std")  # что за три параметра после кол-ва электродов?
 
     """ 3. Construct using GREIT """
-    eit = greit.GREIT(mesh_obj, protocol_obj)  # создается обьект eit класса greit c помощью метода GREIT
+    eit = greit.GREIT(mesh_obj, protocol_obj)
     eit.setup(p=0.50, lamb=0.01, perm=1, jac_normalized=True)
-    ds = eit.solve(v1, v0, normalize=True)  # нужно присмотреться к методу solve, он решит мои проблемы
-    x, y, ds = eit.mask_value(ds, mask_value=np.NAN)  # что такое Any и NAN?
+    ds = eit.solve(v1, v0, normalize=True)
+    x, y, ds = eit.mask_value(ds, mask_value=np.NAN)
 
     # show alpha
-    fig, axes = plt.subplots(constrained_layout=True, figsize=(6, 9))  # что делает метод subplots?
+    fig, axes = plt.subplots(constrained_layout=True, figsize=(6, 9))
 
     # plot
     scatter3 = FigureCanvasTkAgg(fig, root)
-    scatter3.get_tk_widget().pack(fill=BOTH)  # как приладить картинку сбоку?
+    scatter3.get_tk_widget().pack(fill=BOTH)
 
     im = axes.imshow(np.real(ds), interpolation="none", cmap=plt.cm.viridis)
 
-    # fig.colorbar(im, ax=axes.ravel().tolist())
+def left_lung():
+    """the function will return the reconstruction matrix for the left lung"""
+    return 0
 
-    # нужно добавить функцию для отображения нескольких графиков на одном для сравнения
+def right_lung():
+    """the function will return the reconstruction matrix for the right lung"""
+    return 0
