@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7d95dc5c-acc4-419a-aee0-44bfbc0a3cbd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_tkinter_examples/complicated_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/complicated_GUI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_tkinter_examples/experimental.txt" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/experimental.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_tkinter_examples/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI/complicated_GUI.py" beforeDir="false" afterPath="$PROJECT_DIR$/GUI/complicated_GUI.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,13 +31,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/mamro/Desktop/python_eit_w_gui"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mamro/Desktop/python_eit_w_gui&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\mamro\Desktop\python_eit_w_gui\custom_tkinter_examples" />

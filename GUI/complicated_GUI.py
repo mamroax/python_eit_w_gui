@@ -61,21 +61,6 @@ class App(customtkinter.CTk):
                                                      text_color=("gray10", "#DCE4EE"))
         self.main_button_1.grid(row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
-        # making a frame for adding charts
-        # self.chart_frame = customtkinter.CTkFrame(self)
-        # self.chart_frame.grid(row=0, column=1, padx=(10,10), pady=(10, 10), sticky="nsew")
-
-        # # create scrollable frame
-        # self.scrollable_frame = customtkinter.CTkScrollableFrame(self, label_text="Settings for visualization")
-        # self.scrollable_frame.grid(row=1, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
-        # self.scrollable_frame.grid_columnconfigure(0, weight=1)
-        # self.scrollable_frame_switches = []
-        # for i in range(100):
-        #     switch = customtkinter.CTkSwitch(master=self.scrollable_frame, text=f"Parameter {i}")
-        #     switch.grid(row=i, column=0, padx=10, pady=(0, 20))
-        #     self.scrollable_frame_switches.append(switch)
-
-
         self.coord = [] # list for coordinates
 
         self.scrollable_frame = customtkinter.CTkScrollableFrame(self, label_text="Visualization")
