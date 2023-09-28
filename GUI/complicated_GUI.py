@@ -61,20 +61,6 @@ class App(customtkinter.CTk):
                                                      text_color=("gray10", "#DCE4EE"))
         self.main_button_1.grid(row=3, column=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
 
-        # making a frame for adding charts
-        # self.chart_frame = customtkinter.CTkFrame(self)
-        # self.chart_frame.grid(row=0, column=1, padx=(10,10), pady=(10, 10), sticky="nsew")
-
-        # # create scrollable frame
-        # self.scrollable_frame = customtkinter.CTkScrollableFrame(self, label_text="Settings for visualization")
-        # self.scrollable_frame.grid(row=1, column=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
-        # self.scrollable_frame.grid_columnconfigure(0, weight=1)
-        # self.scrollable_frame_switches = []
-        # for i in range(100):
-        #     switch = customtkinter.CTkSwitch(master=self.scrollable_frame, text=f"Parameter {i}")
-        #     switch.grid(row=i, column=0, padx=10, pady=(0, 20))
-        #     self.scrollable_frame_switches.append(switch)
-
 
         self.coord = [] # list for coordinates
 
@@ -123,18 +109,30 @@ class App(customtkinter.CTk):
         new_frame2.pack(fill=X,side=TOP, padx=(20, 20), pady=(20, 20))
         new_frame3 = Frame(master=self.scrollable_frame)
         new_frame3.pack(fill=X, side=TOP, padx=(20, 20), pady=(20, 20))
+        new_frame4 = Frame(master=self.scrollable_frame)
+        new_frame4.pack(fill=X, side=TOP, padx=(20, 20), pady=(20, 20))
+        new_frame5 = Frame(master=self.scrollable_frame)
+        new_frame5.pack(fill=X, side=TOP, padx=(20, 20), pady=(20, 20))
+        new_frame6 = Frame(master=self.scrollable_frame)
+        new_frame6.pack(fill=X, side=TOP, padx=(20, 20), pady=(20, 20))
 
         self.frame = Frame(master=self)
         self.frame.grid(row=0, column=1, rowspan=1, columnspan=3, padx=(20, 20), pady=(20, 20), sticky="nsew")
         self.scrollable_frame_switches.append(functions.build_graph(new_frame1, "path", self.entry.get()))
         self.coord = functions.build_all_graphs(self.frame, "path", self.entry.get(), self.coord)
 
+        # self.scrollable_frame_switches.append(
+        #     functions.make_table(new_frame2, self.entry.get()))
+        # self.sidebar_button_1 = customtkinter.CTkButton(self.scrollable_frame, command=self.delete_frame, text="delete")
+        # self.sidebar_button_1.pack(side=TOP, padx=20, pady=10)
+        # self.scrollable_frame_switches.append(
+        #     functions.make_reconstruction(new_frame3, self.entry.get()))
+        # self.scrollable_frame_switches.append(
+        #     functions.left_lung(new_frame4, self.entry.get()))
+        # self.scrollable_frame_switches.append(
+        #     functions.right_lung(new_frame5, self.entry.get()))
         self.scrollable_frame_switches.append(
-            functions.make_table(new_frame2, self.entry.get()))
-        self.sidebar_button_1 = customtkinter.CTkButton(self.scrollable_frame, command=self.delete_frame, text="delete")
-        self.sidebar_button_1.pack(side=TOP, padx=20, pady=10)
-        self.scrollable_frame_switches.append(
-            functions.make_reconstruction(new_frame3, self.entry.get()))
+            functions.make_jac(new_frame6, self.entry.get()))
 
 if __name__ == "__main__":
     app = App()

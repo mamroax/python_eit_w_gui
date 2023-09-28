@@ -6,13 +6,13 @@ from __future__ import absolute_import, division, print_function
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pyEIT.pyeit.eit.jac as jac
-import pyEIT.pyeit.mesh as mesh
-from pyEIT.pyeit.eit.fem import EITForward
-from pyEIT.pyeit.eit.interp2d import sim2pts
-from pyEIT.pyeit.mesh.shape import thorax
-import pyEIT.pyeit.eit.protocol as protocol
-from pyEIT.pyeit.mesh.wrapper import PyEITAnomaly_Circle
+import pyeit.eit.jac as jac
+import pyeit.mesh as mesh
+from pyeit.eit.fem import EITForward
+from pyeit.eit.interp2d import sim2pts
+from pyeit.mesh.shape import thorax
+import pyeit.eit.protocol as protocol
+from pyeit.mesh.wrapper import PyEITAnomaly_Circle
 
 """ 0. build mesh """
 n_el = 16  # nb of electrodes
