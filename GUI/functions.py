@@ -244,9 +244,9 @@ def make_reconstruction(root: tk.Tk, number_of_frames):
     im = axes.imshow(np.real(ds), interpolation="none", cmap=plt.cm.viridis)
 
 def left_lung():
-    """the function will return the reconstruction matrix for the left lung"""
+    """function will return the reconstruction matrix for the left lung"""
     return 0
 
 def right_lung():
-    """the function will return the reconstruction matrix for the right lung"""
+    """function will return the reconstruction matrix for the right lung"""
     return 0
