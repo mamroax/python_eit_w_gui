@@ -27,7 +27,14 @@ def get_breath_list(file_path: str) -> list[list[float]]:
     return breath_list
 
 
-def get_rotated_list(breath_list: list[list[float]], rotate_num: int) -> list[list[int]]:
+def get_rotated_list(frame: list, rotate_num: int) -> list:
+    """This function rotates the list"""
+    result = []
+    result.append(frame[rotate_num:] + frame[:rotate_num])
+    return result
+
+
+def get_rotated_file(breath_list: list[list[float]], rotate_num: int) -> list[list[int]]:
     """The function shifts the list with measurements in order to rotate the image of the lungs
     (yet not working as it was intended to)"""
     try:
@@ -221,7 +228,7 @@ def make_table(root: tk.Tk, num_of_frames):
     t = Table(root, list1)
 
 
-def make_reconstruction(root: tk.Tk, number_of_frames):
+def make_reconstruction(root: tk.Tk, number_of_frames):  # GREIT reconstruction
     if number_of_frames == '':
         number_of_frames = 1
     try:
@@ -263,6 +270,7 @@ def make_reconstruction(root: tk.Tk, number_of_frames):
     scatter3.get_tk_widget().pack(fill=BOTH)
 
     axes.imshow(np.real(ds), interpolation="none", cmap=plt.cm.viridis)
+    plt.savefig(f'images_greit_dgn/greit_dgn.png', dpi=96)
 
 
 # this shitty code should be destroyed!
@@ -369,16 +377,12 @@ def right_lung(root: tk.Tk, number_of_frames):
     axes.imshow(np.real(ds), interpolation="none", cmap=plt.cm.viridis)
 
 
-def make_jac(root: tk.Tk, number_of_frames): # нужно переписать эту функцию
+def make_jac(root: tk.Tk, num_of_frames):  # нужно переписать эту функцию
     """Reconstruction with JAC algorithm"""
     """ 0. build mesh """
     n_el = 16  # nb of electrodes
-    use_customize_shape = False
-    if use_customize_shape:
-        # Mesh shape is specified with fd parameter in the instantiation, e.g : fd=thorax
-        mesh_obj = mesh.create(n_el, h0=0.1, fd=thorax)
-    else:
-        mesh_obj = mesh.create(n_el, h0=0.1)
+
+    mesh_obj = create(n_el, h0=0.05)
 
     # extract node, element, alpha
     pts = mesh_obj.node
@@ -387,21 +391,44 @@ def make_jac(root: tk.Tk, number_of_frames): # нужно переписать �
 
     """ 1. problem setup """
     # mesh_obj["alpha"] = np.random.rand(tri.shape[0]) * 200 + 100 # NOT USED
-    anomaly = PyEITAnomaly_Circle(center=[0.5, 0.5], r=0.1, perm=1000.0)
-    mesh_new = mesh.set_perm(mesh_obj, anomaly=anomaly)
+    # anomaly = PyEITAnomaly_Circle(center=[0.5, 0.5], r=0.1, perm=1000.0)
+    mesh_new = mesh.set_perm(mesh_obj)  # building our mash for visualisation
 
     """ 2. FEM simulation """
     # setup EIT scan conditions
-    protocol_obj = protocol.create(n_el, dist_exc=8, step_meas=1, parser_meas="std")
+    # protocol_obj = protocol.create(n_el, dist_exc=8, step_meas=1, parser_meas="std")
+    protocol_obj = protocol.create(n_el, dist_exc=1, step_meas=1,
+                                   parser_meas="std")
+
+    """Теперь достанем измерения для jac"""
+    print("Я новенький")
+    nevazno, breath_matrix, ind_min, ind_max = get_framed_breath('experimental.txt', 1)
+    print("Я уже смешарик")
 
     # calculate simulated data
     fwd = EITForward(mesh_obj, protocol_obj)
-    v0 = fwd.solve_eit()
-    v1 = fwd.solve_eit(perm=mesh_new.perm)
-    print(type(v0))
-    print(v0)
-    print(type(v1))
-    print(v1)
+    # v0 = fwd.solve_eit() # Вот эту строчку нужно заменить для того, чтобы построить нужный график
+    # v1 = fwd.solve_eit(perm=mesh_new.perm) # И эту строчку тоже нужно заменить
+
+    # frame1 = get_rotated_list(breath_matrix[ind_max], 0)
+    # frame2 = get_rotated_list(breath_matrix[ind_min], 0)
+    frame1 = breath_matrix[ind_max]
+    frame2 = breath_matrix[ind_min]
+    # print('Тип данных для первого кадра', type(frame1))
+    # print("Тип данных для второго кадра",type(frame2))
+
+    # frame1 = frame1[0]
+    # frame2 = frame2[0]
+
+    """Передадим нужные данные в алгоритм преобразования"""
+    v1 = np.array([float(i) for i in frame1])  # жестко заданы максимальный(вдох)
+    v0 = np.array([float(i) for i in frame2])  # и минимальный(выдох) кадры дыхания
+    # print(type(v0))
+    # print(v0.size)
+    # # print(v0)
+    # print(type(v1))
+    # print(v1.size)
+    # # print(v1)
 
     """ 3. JAC solver """
     # Note: if the jac and the real-problem are generated using the same mesh,
@@ -410,31 +437,30 @@ def make_jac(root: tk.Tk, number_of_frames): # нужно переписать �
     # (mostly) the shape and the electrode positions are not exactly the same
     # as in mesh generating the jac, then data must be normalized.
     eit = jac.JAC(mesh_obj, protocol_obj)
-    eit.setup(p=0.5, lamb=0.01, method="kotre", perm=1, jac_normalized=True)
-    ds = eit.solve(v1, v0, normalize=True)
+    eit.setup(p=0.5, lamb=0.01, method="dgn", perm=1, jac_normalized=True)
+    ds = eit.solve(v1, v0, normalize=True)  # сколько времени занимает solve?
     ds_n = sim2pts(pts, tri, np.real(ds))
 
     # plot ground truth
-    fig, axes = plt.subplots(1, 2, constrained_layout=True)
-    fig.set_size_inches(9, 4)
+    # fig, axes = plt.subplots(1, 2, constrained_layout=True)
+    # fig.set_size_inches(9, 4)
+    fig, axes = plt.subplots(constrained_layout=True, figsize=(6, 9))
 
-    ax = axes[0]
     delta_perm = mesh_new.perm - mesh_obj.perm
-    im = ax.tripcolor(x, y, tri, np.real(delta_perm), shading="flat")
-    ax.set_aspect("equal")
+    im = axes.tripcolor(x, y, tri, np.real(delta_perm), shading="flat")
+    axes.set_aspect("equal")
 
     # plot EIT reconstruction
-    ax = axes[1]
-    im = ax.tripcolor(x, y, tri, ds_n, shading="flat")
+
+    im = axes.tripcolor(x, y, tri, ds_n, shading="flat")
     for i, e in enumerate(mesh_obj.el_pos):
-        ax.annotate(str(i + 1), xy=(x[e], y[e]), color="r")
-    ax.set_aspect("equal")
+        axes.annotate(str(i + 1), xy=(x[e], y[e]), color="r")
+    axes.set_aspect("equal")
 
     scatter3 = FigureCanvasTkAgg(fig, root)
     scatter3.get_tk_widget().pack(fill=BOTH)
 
     fig.colorbar(im, ax=axes.ravel().tolist())
-    # plt.savefig('../doc/images/demo_jac.png', dpi=96)
-
+    plt.savefig('images/demo_jac.png', dpi=96)
 
 # напишем функцию для составления таблицы

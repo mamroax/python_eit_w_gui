@@ -121,18 +121,18 @@ class App(customtkinter.CTk):
         self.scrollable_frame_switches.append(functions.build_graph(new_frame1, "path", self.entry.get()))
         self.coord = functions.build_all_graphs(self.frame, "path", self.entry.get(), self.coord)
 
-        # self.scrollable_frame_switches.append(
-        #     functions.make_table(new_frame2, self.entry.get()))
-        # self.sidebar_button_1 = customtkinter.CTkButton(self.scrollable_frame, command=self.delete_frame, text="delete")
-        # self.sidebar_button_1.pack(side=TOP, padx=20, pady=10)
-        # self.scrollable_frame_switches.append(
-        #     functions.make_reconstruction(new_frame3, self.entry.get()))
-        # self.scrollable_frame_switches.append(
-        #     functions.left_lung(new_frame4, self.entry.get()))
-        # self.scrollable_frame_switches.append(
-        #     functions.right_lung(new_frame5, self.entry.get()))
         self.scrollable_frame_switches.append(
-            functions.make_jac(new_frame6, self.entry.get()))
+            functions.make_table(new_frame2, self.entry.get()))
+        self.sidebar_button_1 = customtkinter.CTkButton(self.scrollable_frame, command=self.delete_frame, text="delete")
+        self.sidebar_button_1.pack(side=TOP, padx=20, pady=10)
+        self.scrollable_frame_switches.append(
+            functions.make_reconstruction(new_frame3, self.entry.get()))
+        self.scrollable_frame_switches.append(
+            functions.left_lung(new_frame4, self.entry.get()))
+        self.scrollable_frame_switches.append(
+            functions.right_lung(new_frame5, self.entry.get()))
+        self.scrollable_frame_switches.append(
+            functions.make_jac(new_frame6, 1))
 
 if __name__ == "__main__":
     app = App()

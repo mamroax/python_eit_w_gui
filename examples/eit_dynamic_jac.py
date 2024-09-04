@@ -70,5 +70,5 @@ for i, e in enumerate(mesh_obj.el_pos):
 ax.set_aspect("equal")
 
 fig.colorbar(im, ax=axes.ravel().tolist())
-# plt.savefig('../doc/images/demo_jac.png', dpi=96)
+# plt.savefig('../doc/images_rotating_208_jac_kotre/demo_jac.png', dpi=96)
 plt.show()

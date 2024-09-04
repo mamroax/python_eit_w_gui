@@ -99,5 +99,5 @@ im = ax.imshow(np.real(ds), interpolation="none", cmap=plt.cm.viridis)
 ax.axis("equal")
 
 fig.colorbar(im, ax=axes.ravel().tolist())
-# fig.savefig('../doc/images/demo_greit.png', dpi=96)
+# fig.savefig('../doc/images_rotating_208_jac_kotre/demo_greit.png', dpi=96)
 plt.show()

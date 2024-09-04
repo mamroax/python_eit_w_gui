@@ -54,7 +54,7 @@ ds_bp = ds
 
 """ ax3. JAC """
 eit = jac.JAC(mesh_obj, protocol_obj)
-# parameter tuning is needed for better EIT images
+# parameter tuning is needed for better EIT images_rotating_208_jac_kotre
 eit.setup(p=0.5, lamb=0.1, method="kotre")
 # if the jacobian is not normalized, data may not to be normalized too.
 ds = eit.solve(v1, v0, normalize=False)
@@ -62,7 +62,7 @@ ds_jac = sim2pts(pts, tri, ds)
 
 """ ax4. GREIT """
 eit = greit.GREIT(mesh_obj, protocol_obj)
-# parameter tuning is needed for better EIT images
+# parameter tuning is needed for better EIT images_rotating_208_jac_kotre
 eit.setup(p=0.5, lamb=0.01)
 ds = eit.solve(v1, v0, normalize=False)
 x, y, ds_greit = eit.mask_value(ds, mask_value=np.NAN)

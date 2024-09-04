@@ -1,7 +1,7 @@
 # pylint: disable=no-member, invalid-name
 # pylint: disable=too-many-arguments, too-many-locals
 """
-Dynamic EIT imaging and information retrieval from EIT images
+Dynamic EIT imaging and information retrieval from EIT images_rotating_208_jac_kotre
 """
 # Copyright (c) Benyuan Liu. All Rights Reserved.
 # Distributed under the (new) BSD License. See LICENSE.txt for more info.
@@ -31,5 +31,5 @@ class DynamicEIT:
         raise NotImplementedError
 
     def map(self, v):
-        """map boundary voltages to EIT images"""
+        """map boundary voltages to EIT images_rotating_208_jac_kotre"""
         raise NotImplementedError

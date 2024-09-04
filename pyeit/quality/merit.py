@@ -4,7 +4,7 @@ import scipy.ndimage as ndi
 
 """
 merit.py contains figures of merit as defined in "GREIT: a unified approach to 2D linear EIT
-reconstruction of lung images" by Andy Adler et al 2009 Physiol. Meas. 30 S35
+reconstruction of lung images_rotating_208_jac_kotre" by Andy Adler et al 2009 Physiol. Meas. 30 S35
 doi:10.1088/0967-3334/30/6/S03
 Also cf implementation in EIDORS
 """
@@ -14,11 +14,11 @@ def calc_greit_figures_of_merit(
     target_image, reconstruction_image, circular=True, target_value=None, out=None
 ):
     """
-    Calculate 5 GRIET figures of merit. Units are pixels of the input images. Target image and reconstruction image are
+    Calculate 5 GRIET figures of merit. Units are pixels of the input images_rotating_208_jac_kotre. Target image and reconstruction image are
     assumed to have the same pixel resolution
 
     With circular=True (default), calculations are as defined in "GREIT: a unified approach to 2D linear EIT
-    reconstruction of lung images" by Andy Adler et al.
+    reconstruction of lung images_rotating_208_jac_kotre" by Andy Adler et al.
 
     With circular=False, Shape deformation and Ringing are adapted to work with non circular targets. These adaptions are
     as defined in "Tracking boundary movement and exterior shape modelling in lung EIT imaging" by A Biguri et al.
@@ -123,7 +123,7 @@ def calc_amplitude(recon_image):
     """
     Image amplitude is the sum of the values of the reconstructed image.
 
-    In Adler's GREIT: a unified approach to 2D linear EIT reconstruction of lung images, this is further divided by a
+    In Adler's GREIT: a unified approach to 2D linear EIT reconstruction of lung images_rotating_208_jac_kotre, this is further divided by a
     quantity involving the target, but in Adler's implementation in EIDORS, just the reconstruciton image amplitude is
     calculated
     Parameters
@@ -243,7 +243,7 @@ def calc_shape_deformation(
     Calculate shape deformation: Sum of pixels in reconstructed target that are outside the reference target. Unit: pixels
 
     With circular=True (default), the calculation is as defined in "GREIT: a unified approach to 2D linear EIT
-    reconstruction of lung images" by Andy Adler et al.
+    reconstruction of lung images_rotating_208_jac_kotre" by Andy Adler et al.
 
     With circular=False, the calculation is an adaption of the shape deformation measure to account for non circular targets.
     This adaption of the GREIT shape deformation measure was made by A Biguri in "Tracking boundary movement and exterior
@@ -299,7 +299,7 @@ def calc_ringing(
     Calculate ringing: Sum of pixels of opposite value to reconstructed target in the reconstruction image
 
     With circular=True (default), the calculation is as defined in "GREIT: a unified approach to 2D linear EIT
-    reconstruction of lung images" by Andy Adler et al.
+    reconstruction of lung images_rotating_208_jac_kotre" by Andy Adler et al.
 
     With circular=False, the calculation is an adaption of the ringing measure to account for non circular targets.
     This adaption of the GREIT shape deformation measure was made by A Biguri in "Tracking boundary movement and exterior

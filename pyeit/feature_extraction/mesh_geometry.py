@@ -1,6 +1,6 @@
 # pylint: disable=no-member, invalid-name, no-name-in-module
 # pylint: disable=too-many-arguments, too-many-locals
-"""using the geometry of mesh to segment the EIT images"""
+"""using the geometry of mesh to segment the EIT images_rotating_208_jac_kotre"""
 # Copyright (c) Benyuan Liu. All Rights Reserved.
 # Distributed under the (new) BSD License. See LICENSE.txt for more info.
 

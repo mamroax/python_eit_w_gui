@@ -71,7 +71,7 @@ class GREIT(EitBase):
             "3D EIT image reconstruction with GREIT"
         [2] Adler, Andy, et al.
             "GREIT: a unified approach to 2D linear EIT reconstruction of
-            lung images." Physiological measurement 30.6 (2009): S35.
+            lung images_rotating_208_jac_kotre." Physiological measurement 30.6 (2009): S35.
         """
 
         if method != "dist":
